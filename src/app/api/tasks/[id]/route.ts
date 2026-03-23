@@ -14,14 +14,15 @@ const updateTaskSchema = z.object({
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
+    const { id } = await params;
     const body = await request.json();
     const validatedData = updateTaskSchema.parse(body);
 
-    const task = await Task.findByIdAndUpdate(params.id, validatedData, {
+    const task = await Task.findByIdAndUpdate(id, validatedData, {
       new: true,
     });
 
@@ -32,7 +33,7 @@ export async function PATCH(
     return NextResponse.json(task);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json({ error: error.issues }, { status: 400 });
     }
     console.error('Error updating task:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

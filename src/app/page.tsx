@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import AddTaskForm from '@/components/AddTaskForm';
+import AddTaskForm from '../components/AddTaskForm';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -43,6 +43,10 @@ interface Task {
 }
 
 export default function Dashboard() {
+  return <DashboardContent />;
+}
+
+function DashboardContent() {
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
