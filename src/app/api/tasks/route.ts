@@ -11,7 +11,7 @@ const taskSchema = z.object({
   due_date: z.string().transform((str) => new Date(str)),
   status: z.enum(['Pending', 'Completed']).default('Pending'),
   priority: z.enum(['Low', 'Medium', 'High']).default('Medium'),
-});
+}); 
 
 export async function GET(request: Request) {
   try {
